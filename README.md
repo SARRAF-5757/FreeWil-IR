@@ -56,6 +56,7 @@ pip install freewili
 3. The device should be automatically detected and turn on
 
 ### Step 4: Run the Scripts
+```
 
 **For the two-mode IR game:**
 ```bash
