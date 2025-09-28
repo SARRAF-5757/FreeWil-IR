@@ -88,3 +88,11 @@ python accel-sim.py
 2. Tilt the device left or right to move the light trail
 3. The trail will follow your device's orientation smoothly
 4. Press Ctrl+C to exit
+
+
+## Project page
+
+See the project submission on Devpost:
+
+https://devpost.com/software/freewilir
+
