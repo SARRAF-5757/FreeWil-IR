@@ -1,114 +1,151 @@
-# FreeWil-IR
+# FreeWili-IR Games & Simulations
 
-Initial commit.
+This repository contains three Python scripts that demonstrate different capabilities of FreeWili devices:
 
-FreeWili two-player demo
-=========================
+## Scripts Overview
 
-This repository contains two helper scripts that demonstrate how to build a
-simple two-player game using FreeWili devices and IR communication.
+### 🎮 `game.py` - Two-Mode IR Communication Game
+A two-player interactive game using FreeWili devices and IR communication. Players can switch between SEND and RECEIVE modes using the red button, and send/receive colored light signals through IR communication.
 
-Files
------
+**Features:**
+- Mode switching between SEND and RECEIVE using the red button
+- Color-coded IR signal transmission and reception
+- LED feedback for current mode and received signals
+- Real-time button state monitoring
 
-- `game.py` — Dual-mode hardware runner
-  - Runs both send-and-receive behavior simultaneously on a FreeWili device.
-  - Polls local buttons; when a button press is detected it sends a challenge
-    message (payload: `b'G' + idx`).
-  - Listens for IR; when it receives a challenge (`b'G' + idx`) it lights the
-    corresponding LED (best-effort) and replies with `b'R' + idx`.
-  - Keeps the original example snippets (send and listen) available as
-    `--example send` and `--example listen`.
+### 🎯 `game_turn-based.py` - Turn-Based IR Game
+A turn-based multiplayer game where players must respond to IR signals within a time limit. The game features a countdown timer and requires quick responses to prevent game over.
 
-- `two_player_game.py` — Minimal challenge/response demo with simulation
-  - Provides a challenger/responder flow and a `--simulate` mode for
-    development without hardware.
-  - In simulation mode it prompts the user for keyboard input to emulate IR
-    payloads and button presses.
-  - Uses a small message format: `b'G' + led_index` for challenge and
-    `b'R' + led_index` for response.
+**Features:**
+- Turn-based gameplay with time pressure
+- 10-second countdown timer before game over
+- Random light generation for each turn
+- IR signal matching mechanics
 
-Quick start
------------
+### 🌟 `accel-sim.py` - Accelerometer Light Trail Simulation
+An interactive light trail simulation that responds to device tilt using the built-in accelerometer. Creates a smooth, animated light trail that follows the device's orientation.
 
-Hardware (single device, dual-mode):
-- Connect a FreeWili device and run on the device or a host that can talk to it:
+**Features:**
+- Real-time accelerometer data processing
+- Smooth light trail animation with decay effects
+- Tilt-based LED position mapping
+- Low-pass filtering for stable movement
+- Efficient LED update system
 
+## Installation & Setup Tutorial
+
+### Prerequisites
+- Python 3.7 or higher
+- pip (Python package installer)
+- FreeWili device(s) connected via USB
+
+### Step 1: Install Python and pip
+
+**On macOS (using Homebrew):**
+```bash
+# Install Homebrew if not already installed
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Python (includes pip)
+brew install python
+```
+
+**On Windows:**
+1. Download Python from [python.org](https://www.python.org/downloads/)
+2. During installation, check "Add Python to PATH"
+3. pip will be installed automatically
+
+**On Linux (Ubuntu/Debian):**
+```bash
+sudo apt update
+sudo apt install python3 python3-pip
+```
+
+### Step 2: Install FreeWili Library
+
+```bash
+# Install the freewili library
+pip install freewili
+
+# Or if you have multiple Python versions, use:
+pip3 install freewili
+```
+
+### Step 3: Connect Your FreeWili Device
+
+1. Connect your FreeWili device to your computer via USB
+2. Ensure the device is properly powered on
+3. The device should be automatically detected by the system
+
+### Step 4: Verify Installation
+
+```bash
+# Test if freewili is properly installed
+python -c "import freewili; print('FreeWili library installed successfully!')"
+```
+
+### Step 5: Run the Scripts
+
+**For the two-mode IR game:**
 ```bash
 python game.py
 ```
 
-This will:
-- Poll buttons and send a challenge whenever a local button is pressed.
-- Listen for incoming challenges and respond automatically.
-
-Hardware (original examples):
-- Send a single IR packet (original example):
-
+**For the turn-based game:**
 ```bash
-python game.py --example send
+python game_turn-based.py
 ```
 
-- Run original IR event listener:
-
+**For the accelerometer simulation:**
 ```bash
-python game.py --example listen
+python accel-sim.py
 ```
 
-Simulation (no hardware required):
-- Use the simulation script to iterate on game logic locally.
+## Usage Instructions
 
-```bash
-python two_player_game.py --simulate --role challenger
-python two_player_game.py --simulate --role responder
-```
+### Two-Mode IR Game (`game.py`)
+1. Run the script with two FreeWili devices
+2. Use the red button to switch between SEND and RECEIVE modes
+3. In SEND mode: Press any colored button to send that color's signal
+4. In RECEIVE mode: Wait for the other device's signal and respond accordingly
 
-Simulation mode accepts typed hex bytes for IR payloads and keyboard responses
-for button presses. This helps debug the messaging and state transitions
-without a physical device.
+### Turn-Based Game (`game_turn-based.py`)
+1. Run the script on both devices
+2. Press any button to send your color signal
+3. Respond to incoming signals within 10 seconds
+4. Game ends if you don't respond in time
 
-IR protocol
------------
+### Accelerometer Simulation (`accel-sim.py`)
+1. Run the script with a single FreeWili device
+2. Tilt the device left or right to move the light trail
+3. The trail will follow your device's orientation smoothly
+4. Press Ctrl+C to exit
 
-- Challenge: `b'G' + idx` where `idx` is a single byte (LED/button index)
-- Response: `b'R' + idx`
+## Troubleshooting
 
-These are intentionally tiny for clarity. For production you should:
-- Add a device-id (so multiple games nearby don't collide)
-- Add a sequence number or timestamp to avoid replay/duplicate issues
-- Add a simple checksum or HMAC for integrity if needed
+**Device not found:**
+- Ensure the FreeWili device is properly connected via USB
+- Check that the device is powered on
+- Try running the script with administrator/sudo privileges
 
-Notes and troubleshooting
--------------------------
+**Import errors:**
+- Verify freewili is installed: `pip list | grep freewili`
+- Try reinstalling: `pip uninstall freewili && pip install freewili`
 
-- LED / button APIs: the code uses the public FreeWili APIs found in this
-  workspace (`send_ir`, `set_event_callback`, `enable_ir_events`,
-  `process_events`, `read_all_buttons`) and attempts to call a few likely
-  LED helper names (`set_board_leds`, `setBoardLED`). If your runtime uses a
-  different LED method or signature, update the call in `game.py`.
+**Permission errors:**
+- On Linux/macOS, you may need to add your user to the dialout group:
+  ```bash
+  sudo usermod -a -G dialout $USER
+  ```
+- Log out and log back in for changes to take effect
 
-- If IR messages appear as `bytearray` or `list` rather than `bytes`, convert
-  incoming payloads with `bytes(event_data.value)` before comparing.
+## Requirements
 
-- If you want fully independent concurrent behavior, convert the main loop
-  to use threads (one thread to poll/send, one thread to respond) — the
-  current implementation is cooperative and runs both duties sequentially in
-  a single loop.
+- Python 3.7+
+- freewili library
+- FreeWili device(s)
+- USB connection
 
-Next steps / improvements
-------------------------
+## License
 
-- Wire exact LED/button API names and signatures so lighting and button reads
-  are robust and deterministic.
-- Add device ID and sequence numbers to IR messages for reliability.
-- Add scoring, round timers, and game-over logic (the scripts intentionally
-  leave termination logic minimal).
-- Convert button polling to event-driven callbacks if the runtime provides
-  them.
-
-Contact
--------
-
-If you want me to wire specific LED or button APIs (or add device IDs to the
-protocol), tell me the function names/signatures and I will update the
-scripts accordingly.
+This project is open source. Please check the FreeWili library license for usage terms.
