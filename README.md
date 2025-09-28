@@ -90,9 +90,6 @@ python accel-sim.py
 4. Press Ctrl+C to exit
 
 
-## Project page
 
-See the project submission on Devpost:
-
-https://devpost.com/software/freewilir
+**See the project submission on** [Devpost](https://devpost.com/software/freewilir)
 
