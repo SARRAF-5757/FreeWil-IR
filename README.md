@@ -4,39 +4,21 @@ This repository contains three Python scripts that demonstrate different capabil
 
 ## Scripts Overview
 
-### 🎮 `game.py` - Two-Mode IR Communication Game
+### `game.py` - Two-Mode IR Communication Game
 A two-player interactive game using FreeWili devices and IR communication. Players can switch between SEND and RECEIVE modes using the red button, and send/receive colored light signals through IR communication.
 
-**Features:**
-- Mode switching between SEND and RECEIVE using the red button
-- Color-coded IR signal transmission and reception
-- LED feedback for current mode and received signals
-- Real-time button state monitoring
-
-### 🎯 `game_turn-based.py` - Turn-Based IR Game
+### `game_turn-based.py` - Turn-Based IR Game
 A turn-based multiplayer game where players must respond to IR signals within a time limit. The game features a countdown timer and requires quick responses to prevent game over.
 
-**Features:**
-- Turn-based gameplay with time pressure
-- 10-second countdown timer before game over
-- Random light generation for each turn
-- IR signal matching mechanics
-
-### 🌟 `accel-sim.py` - Accelerometer Light Trail Simulation
-An interactive light trail simulation that responds to device tilt using the built-in accelerometer. Creates a smooth, animated light trail that follows the device's orientation.
-
-**Features:**
-- Real-time accelerometer data processing
-- Smooth light trail animation with decay effects
-- Tilt-based LED position mapping
-- Low-pass filtering for stable movement
-- Efficient LED update system
+### `accel-sim.py` - Accelerometer Light Trail Simulation
+An interactive light trail simulation that responds to device tilt using the built-in accelerometer. Creates a smooth, animated light trail that follows the device's orientation. Uses efficient light updating to improve performance and reduce unnecessary writes.
 
 ## Installation & Setup Tutorial
 
 ### Prerequisites
 - Python 3.7 or higher
 - pip (Python package installer)
+- FreeWili library
 - FreeWili device(s) connected via USB
 
 ### Step 1: Install Python and pip
@@ -67,24 +49,13 @@ sudo apt install python3 python3-pip
 # Install the freewili library
 pip install freewili
 
-# Or if you have multiple Python versions, use:
-pip3 install freewili
-```
 
-### Step 3: Connect Your FreeWili Device
+### Step 3: Connect Your FreeWili
 
 1. Connect your FreeWili device to your computer via USB
-2. Ensure the device is properly powered on
-3. The device should be automatically detected by the system
+3. The device should be automatically detected and turn on
 
-### Step 4: Verify Installation
-
-```bash
-# Test if freewili is properly installed
-python -c "import freewili; print('FreeWili library installed successfully!')"
-```
-
-### Step 5: Run the Scripts
+### Step 4: Run the Scripts
 
 **For the two-mode IR game:**
 ```bash
@@ -120,32 +91,3 @@ python accel-sim.py
 2. Tilt the device left or right to move the light trail
 3. The trail will follow your device's orientation smoothly
 4. Press Ctrl+C to exit
-
-## Troubleshooting
-
-**Device not found:**
-- Ensure the FreeWili device is properly connected via USB
-- Check that the device is powered on
-- Try running the script with administrator/sudo privileges
-
-**Import errors:**
-- Verify freewili is installed: `pip list | grep freewili`
-- Try reinstalling: `pip uninstall freewili && pip install freewili`
-
-**Permission errors:**
-- On Linux/macOS, you may need to add your user to the dialout group:
-  ```bash
-  sudo usermod -a -G dialout $USER
-  ```
-- Log out and log back in for changes to take effect
-
-## Requirements
-
-- Python 3.7+
-- freewili library
-- FreeWili device(s)
-- USB connection
-
-## License
-
-This project is open source. Please check the FreeWili library license for usage terms.
