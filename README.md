@@ -44,20 +44,16 @@ sudo apt install python3 python3-pip
 ```
 
 ### Step 2: Install FreeWili Library
-
 ```bash
 # Install the freewili library
 pip install freewili
-
+```
 
 ### Step 3: Connect Your FreeWili
-
 1. Connect your FreeWili device to your computer via USB
 3. The device should be automatically detected and turn on
 
 ### Step 4: Run the Scripts
-```
-
 **For the two-mode IR game:**
 ```bash
 python game.py
